@@ -269,9 +269,8 @@
 
             <!-- Right Form Side -->
             <div class="contact-form">
-                <form action="https://api.web3forms.com/submit" method="POST">
+                <form id="contact-form" method="POST">
                     
-                    <!-- Your Active Web3Forms Access Key -->
                     <input type="hidden" name="access_key" value="4f2c5a59-a358-47cf-ac98-d60efaaf5b81">
                     
                     <div class="form-group">
@@ -288,6 +287,9 @@
                     </div>
                     
                     <button type="submit" class="btn btn-yellow">SEND MESSAGE</button>
+                    
+                    <!-- Dynamic success/error message container -->
+                    <div id="form-result"></div>
                 </form>
             </div>
             

@@ -599,6 +599,26 @@ textarea.form-control {
     font-size: 1rem;
 }
 
+#form-result {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    display: none; /* Hidden by default */
+    animation: fadeUp 0.3s ease-out;
+}
+
+#form-result.success {
+    display: block;
+    color: #22C55E; /* Premium emerald green */
+}
+
+#form-result.error {
+    display: block;
+    color: #EF4444; /* Premium crimson red */
+}
+
+
 /* ==========================================================================
     ANIMATIONS
     ========================================================================== */
