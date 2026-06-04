@@ -1,0 +1,834 @@
+/* ==========================================================================
+    CSS VARIABLES & RESET
+    ========================================================================== */
+:root {
+    /* Exact warm golden yellow from the client's image */
+    --accent-yellow: #FFC000;     
+    --primary-blue: #0045A5;      
+    --secondary-blue: #003380;    
+    --bg-light: #F4F7F9;          
+    --white: #FFFFFF;
+    --text-dark: #1F2937;         
+    --text-muted: #6B7280;        
+    --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --font-main: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-light);
+    color: var(--text-muted);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* --- SCROLL LOCK UTILITY --- */
+body.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ==========================================================================
+    TYPOGRAPHY & UTILITIES
+    ========================================================================== */
+.section-title {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 64px;
+    width: 100%;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    top: 20px; /* Aligns with the middle of the H2 text */
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #E2E8F0; /* Soft gray line */
+    z-index: 1;
+}
+
+.section-title h2 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    background-color: var(--bg-light); /* Matches background to mask the horizontal line */
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title p {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 2;
+    background-color: var(--bg-light);
+    padding: 0 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: none;
+    text-align: center;
+}
+
+button {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 12px 32px; /* Margins match mockup perfectly */
+    border-radius: 4px; /* Shaper corners like the client's mockup */
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    min-width: 180px;
+    height: auto;
+    transition: var(--transition-smooth);
+}
+
+
+.btn-yellow {
+    background: #FFC000;
+    color: #000000; /* Dark text for high readability */
+    border: none;
+    box-shadow: 0 4px 10px rgba(255, 192, 0, 0.2);
+    max-width: 100%;
+    width: 180px;
+    align-self: center;
+}
+
+.btn-blue {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+/* ==========================================================================
+    HEADER NAVIGATION
+    ========================================================================== */
+header {
+    background-color: var(--primary-blue);
+    /* Moved border to the bottom and matched client's thickness */
+    border-bottom: 5px solid var(--accent-yellow); 
+    padding: 14px 0;
+    position: relative;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-text {
+    color: var(--white);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.logo-accent {
+    color: var(--accent-yellow);
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--accent-yellow);
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 16px;
+    background: transparent !important; /* Overrides global button gradient */
+    border: none !important;            /* Overrides global button border */
+    box-shadow: none !important;        /* Overrides global button shadow */
+    padding: 0 !important;              /* Overrides global button padding */
+    min-width: 0 !important;            /* Overrides global button min-width */
+    cursor: pointer;
+    z-index: 110;
+}
+
+
+.hamburger .bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 2px;
+    transition: var(--transition-smooth);
+}
+
+/* ==========================================================================
+    HERO SECTION & TOP WAVES
+    ========================================================================== */
+.hero {
+    position: relative;
+    /* Softened gradient overlay to reveal more of the background team */
+    background: linear-gradient(90deg, rgba(0, 69, 165, 0.95) 0%, rgba(0, 69, 165, 0.7) 40%, rgba(0, 69, 165, 0) 85%), 
+                url(img/two-busy-professional-business-men-260nw-2744880967.jpg) center/cover no-repeat;
+    padding: 140px 0 220px 0; /* Generous bottom vertical space for waves */
+    color: var(--white);
+}
+
+.hero-container-layout {
+    display: flex;
+    justify-content: flex-start; /* Aligns content container to the far left */
+    width: 100%;
+}
+
+.hero-content {
+    max-width: 850px; /* Wider container to allow single-line headings on desktop */
+    text-align: left; /* Left-align the copy */
+    animation: fadeUp 1s ease-out;
+}
+
+.hero h1 {
+    font-size: 3.25rem;
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.015em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.hero p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 36px;
+    opacity: 0.95;
+    letter-spacing: -0.01em;
+}
+
+/* Fluid SVG Waves */
+.wave-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: translateY(2px);
+}
+
+.wave-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 120px;
+}
+
+/* ==========================================================================
+    OUR SERVICES SECTION
+    ========================================================================== */
+.services {
+    padding: 100px 0;
+    background-color: var(--bg-light);
+    position: relative;
+    z-index: 10;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px; /* Increased gap to give cards more breathing room */
+}
+
+.service-card {
+    background: var(--white);
+    /* Extra top padding (56px) leaves room for the hanging circle icon */
+    padding: 56px 30px 32px 30px; 
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    /* Soft, dispersed corporate shadow matching client's mockup */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); 
+    transition: var(--transition-smooth);
+    position: relative; /* Crucial: anchors the absolute positioned icon */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+
+.service-icon {
+    position: absolute;
+    top: -30px; /* Pulls exactly half of its height (60px) out of the card */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%; /* Spans full width to let the flexbox center the image easily */
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.service-icon img {
+    width: auto;
+    height: 56px; /* Strict uniform height constraints */
+    max-width: 64px; /* Safety width limit for wider icons */
+    object-fit: contain;
+    display: block;
+}
+
+.service-card h3 {
+    color: var(--primary-blue);
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #E2E8F0; /* Soft gray underline */
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.service-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+    FEATURED PROJECTS SECTION
+    ========================================================================== */
+.projects {
+    padding: 60px 0;
+}
+
+.project-card {
+    background: var(--white);
+    border-radius: 6px; /* Matched to service card */
+    border: 1px solid rgba(0, 0, 0, 0.03); /* Matched to service card */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); /* Matched to service card */
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.project-card:nth-child(1) { animation-delay: 0.1s; }
+.project-card:nth-child(2) { animation-delay: 0.2s; }
+.project-card:nth-child(3) { animation-delay: 0.3s; }
+
+.project-img {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.project-info {
+    /* Padding matches the bottom half of the service card perfectly */
+    padding: 24px 30px 32px 30px; 
+    text-align: center;
+    border-top: 4px solid var(--accent-yellow);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-info h3 {
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* ==========================================================================
+    LATEST NEWS SECTION
+    ========================================================================== */
+.news {
+    padding: 60px 0 120px 0;
+}
+
+.news-card {
+    position: relative;
+    border-radius: 6px; /* Matched to service card */
+    border: 1px solid rgba(0, 0, 0, 0.03); /* Matched to service card */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); /* Matched to service card */
+    transition: var(--transition-smooth);
+    height: 370px; /* Unified height matching the project and service cards */
+    overflow: hidden;
+}
+
+.news-card:nth-child(1) { animation-delay: 0.1s; }
+.news-card:nth-child(2) { animation-delay: 0.2s; }
+.news-card:nth-child(3) { animation-delay: 0.3s; }
+
+.news-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Deepened top-to-bottom padding to look perfectly balanced on the taller card */
+    padding: 24px 24px 80px 24px; 
+    background: linear-gradient(to bottom, rgba(0, 30, 75, 0.9) 0%, rgba(0, 30, 75, 0) 100%);
+    color: var(--white);
+}
+
+.news-overlay h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.news-date {
+    font-size: 0.8rem;
+    color: var(--accent-yellow);
+    font-weight: 600;
+}
+
+.news-btn-wrapper {
+    position: absolute;
+    bottom: 20px; /* Permanently positioned at the bottom on touchscreens */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    opacity: 1; /* Always visible on touchscreens */
+    transition: var(--transition-smooth);
+}
+
+/* ==========================================================================
+    FOOTER / CONTACT SECTION
+    ========================================================================== */
+footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    position: relative;
+    padding: 100px 0 60px 0;
+}
+
+.footer-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: translateY(-99%); /* Pulls wave up to sit exactly above footer */
+}
+
+.footer-waves svg {
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.contact-info h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.footer-links-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.footer-links h4 {
+    font-size: 0.9rem;
+    color: var(--accent-yellow);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links ul li::before {
+    content: '▶';
+    color: var(--accent-yellow);
+    font-size: 0.6rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.social-icons svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--white);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.social-icons svg:hover {
+    fill: var(--accent-yellow);
+    transform: translateY(-2px);
+}
+
+/* Contact Form */
+.contact-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: var(--white);
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--accent-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.2);
+}
+
+textarea.form-control {
+    height: 120px;
+    resize: vertical;
+}
+
+.contact-form .btn-yellow {
+    width: 100%;
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+    ANIMATIONS
+    ========================================================================== */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   PIXEL-PERFECT RESPONSIVE BREAKPOINTS (Decoupled Layout & Navigation)
+   ========================================================================== */
+
+/* 
+   1. TABLET GRIDS (601px to 1025px) 
+   Forces all 3-card rows to stay in a clean, tight 3-column layout on standard and small tablets.
+*/
+@media (min-width: 601px) and (max-width: 1025px) {
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 20px !important; /* Tighter gaps for smaller tablets */
+    }
+
+    .services, .projects, .news {
+        padding: 60px 0 !important;
+    }
+
+    .service-card {
+        padding: 48px 16px 24px 16px !important;
+    }
+
+    .project-info {
+        padding: 20px 16px 24px 16px !important;
+    }
+
+    .project-img {
+        height: 180px !important;
+    }
+
+    .news-card {
+        height: 310px !important;
+    }
+
+    .news-overlay {
+        padding: 20px 16px 50px 16px !important;
+    }
+
+    .news-btn-wrapper .btn {
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
+    }
+
+    footer {
+        margin-top: 60px;
+    }
+}
+
+/* 
+   2. MOBILE NAV TRIGGER (Up to 768px)
+   Triggers the mobile hamburger menu drawer for phones and portrait tablets (like Tab S4).
+*/
+@media (max-width: 768px) {
+    header {
+        flex-direction: row;
+        padding: 24px 16px;
+        position: relative;
+    }
+
+    .hamburger {
+        display: flex !important;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 43, 102, 0.98);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        gap: 40px;
+        transition: var(--transition-smooth);
+        z-index: 100;
+        padding-top: 60px;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .nav-wrapper .button,
+    .nav-wrapper .read-doc-button {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+}
+
+/* 
+   3. MOBILE GRID COLLAPSE (Up to 600px)
+   Collapses the layout into a clean 1-column stack for smartphones.
+*/
+@media (max-width: 600px) {
+    body {
+        padding: 0;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .hero {
+        padding: 100px 0 160px 0 !important; /* Adjusted padding to perfectly balance the content and waves */
+        text-align: center;
+        /* Shifts the background image to the left, keeping the people collaborating centered on mobile screens */
+        background-position: 80% center !important; 
+    }
+
+    .hero-container-layout {
+        justify-content: center;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .section-title h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Stack cards cleanly on phones */
+    .grid-3 {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+    }
+
+    .services .container .grid-3 {
+        gap: 46px;
+    }
+
+    .services {
+        padding: 60px 0px 0px;
+    }
+
+    .service-card {
+        padding: 56px 24px 32px 24px !important;
+    }
+
+    .projects {
+        padding-bottom: 0px;
+    }
+
+    .news-card {
+        height: 340px !important;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .footer-links-row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* ==========================================================================
+   DESKTOP ONLY HOVER EFFECTS (Fixes sticky-hover bugs on touchscreens)
+   ========================================================================== */
+@media (hover: hover) {
+    /* Hover state for buttons */
+    .btn-yellow:hover {
+        background: #FFB300;
+        transform: translateY(-2px); /* Gentle upward lift */
+        box-shadow: 0 6px 15px rgba(255, 192, 0, 0.3);
+    }
+
+    /* Hover state for service cards */
+    .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Hover state for project cards */
+    .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Hover state for news cards */
+    .news-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Slide-up effect for news buttons - ONLY runs on desktop */
+    .news-btn-wrapper {
+        bottom: -20px; /* Hidden off-card by default on desktop */
+        opacity: 0;
+    }
+
+    .news-card:hover .news-btn-wrapper {
+        bottom: 20px; /* Slides smoothly up into view on hover */
+        opacity: 1;
+    }
+}
